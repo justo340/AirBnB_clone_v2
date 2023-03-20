@@ -63,7 +63,11 @@ class FileStorage:
         if obj is None:
             return
 
-        FileStorage.__objects.pop(obj.id, 0)
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        if key in FileStorage.__objects:
+            del FileStorage.__objects[key]
+            self.save()
+
 
     def close(self):
         self.save()
